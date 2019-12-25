@@ -1,69 +1,42 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 
 using namespace std;
 
-vector<int> temp;
-
-void merge(vector<int> seq, int begin, int mid, int end)
-{
-	int left = begin, m = mid+1, i = begin, l;
-	
-	while(left<=mid && m<=end)
-	{
-		if(seq[left]<=seq[m])
-			temp[i++] = seq[left++];
-		else
-			temp[i++] = seq[m++];
-	}
-	
-	if(left>mid)
-		for(l=m; l<=end; l++)
-			temp[i++]=seq[l];
-	
-	else
-		for(l=left; l<=mid; l++)
-			temp[i++]=seq[l];
-	
-	for(l=begin; l<=end; l++)
-		seq[l] = temp[l];
-}
-
-void sort(vector<int> seq, int begin, int end)
-{
-	int mid;
-	
-	if(begin<end)
-	{
-		mid = (begin+end)/2;
-		sort(seq, begin, mid);
-		sort(seq, mid+1, end);
-		merge(seq, begin, mid, end);
-	}
-}
-
 int main(void)
 {
-	int a,b,n;
+	int a, b, i, idx1=0, idx2=0;
 	
 	cin>>a>>b;
 	
-	vector<int> seq(a+b);
+	vector<int> a_seq(a), b_seq(b), ans(a+b);
 	
-	for(int i=0; i<a+b; ++i)
+	for(i=0; i<a; ++i)
+		cin>>a_seq[i];
+	for(i=0; i<b; ++i)
+		cin>>b_seq[i];
+	
+	for(i=0; i<a+b; ++i)
 	{
-		cin>>n;
-		seq[i]=n;
-		cout<<seq[i]<<" ";
+		if(idx1>=a)
+		{
+			ans[i]=b_seq[idx2++];
+		}
+		else if(idx2>=b)
+		{
+			ans[i]=a_seq[idx1++];
+		}
+		else
+		{
+			if(a_seq[idx1]>b_seq[idx2])
+			{
+				ans[i]=b_seq[idx2++];
+			}
+			else
+				ans[i]=a_seq[idx1++];
+		}
 	}
 	
-	for(int i=0; i<a+b; ++i)
-	{
-		cout<<seq[i]<<" ";
-	}
-	
-	sort(seq,0,a+b);
-	
-	for(int i=0; i<a+b; ++i)
-		cout<<seq[i]<<" ";
+	for(i=0; i<a+b; ++i)
+		cout<<ans[i]<<" ";
 }
