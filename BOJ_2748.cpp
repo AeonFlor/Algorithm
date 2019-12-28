@@ -8,23 +8,30 @@ vector<int> temp;
 void fibo(vector<int>&res, vector<int>&bef, int n)
 {
 	if(res.size()!=bef.size()) bef.push_back(0);
+	
 	temp.clear();
 	temp = res;
 	
 	int cur = res.size()-1;
 	
+	for(int i=cur; i>=0; --i)
+	{
+		printf("BEF BEFORE: %d\n",bef[i]);
+		printf("RES BEFORE: %d\n",res[i]);
+		printf("n : %d\n",n);
+		printf("----------------\n");
+	}
+	
 	for(int i=0; i<=cur; ++i)
 	{
 		printf("%d : %d(bef) + %d(res) COMPLETE\n",i,bef[i],res[i]); // for checking
-		printf("TEMP BEFORE: %d\n",temp[0]);
 		res[i]+=bef[i];
-		printf("TEMP AFTER: %d\n",temp[0]);
 		
 		if(i==cur && res[i]>9)
 		{
-			res[i]+=bef[i];
 			res.push_back(res[i]/10);
 			res[i]%=10;
+			++cur;
 		}
 		
 		else if(res[i]>9)
@@ -32,7 +39,16 @@ void fibo(vector<int>&res, vector<int>&bef, int n)
 			res[i+1]+=res[i]/10;
 			res[i]%=10;
 		}
+		
+		for(int j=cur; j>=0; --j)
+		{
+			printf("%d",res[j]);
+		}
+		printf("\n%d/%d----------------\n",i,cur);
 	}
+	
+	bef.clear();
+	bef = temp;
 	
 	if(--n==0)
 	{
@@ -40,7 +56,7 @@ void fibo(vector<int>&res, vector<int>&bef, int n)
 			printf("%d",res[i]);
 	}
 	else
-		fibo(res, temp, n);
+		fibo(res, bef, n);
 }
 
 int main(void)
