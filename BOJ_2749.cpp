@@ -12,11 +12,16 @@ void fibo(vector<int>&res, vector<int>&bef, int n)
 	temp.clear();
 	temp = res;
 	
-	int cur = res.size()-1;
+	int cur = (res.size()-1>5)?5:res.size()-1;
 	
 	for(int i=0; i<=cur; ++i)
 	{
 		res[i]+=bef[i];
+		
+		if(i==5)
+		{
+			res[i]%=10;
+		}
 		
 		if(i==cur && res[i]>9)
 		{
