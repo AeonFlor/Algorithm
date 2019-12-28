@@ -14,17 +14,8 @@ void fibo(vector<int>&res, vector<int>&bef, int n)
 	
 	int cur = res.size()-1;
 	
-	for(int i=cur; i>=0; --i)
-	{
-		printf("BEF BEFORE: %d\n",bef[i]);
-		printf("RES BEFORE: %d\n",res[i]);
-		printf("n : %d\n",n);
-		printf("----------------\n");
-	}
-	
 	for(int i=0; i<=cur; ++i)
 	{
-		printf("%d : %d(bef) + %d(res) COMPLETE\n",i,bef[i],res[i]); // for checking
 		res[i]+=bef[i];
 		
 		if(i==cur && res[i]>9)
@@ -39,12 +30,6 @@ void fibo(vector<int>&res, vector<int>&bef, int n)
 			res[i+1]+=res[i]/10;
 			res[i]%=10;
 		}
-		
-		for(int j=cur; j>=0; --j)
-		{
-			printf("%d",res[j]);
-		}
-		printf("\n%d/%d----------------\n",i,cur);
 	}
 	
 	bef.clear();
