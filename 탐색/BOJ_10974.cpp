@@ -1,45 +1,23 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-void perm(vector<int>&v, vector<int>&num, int n)
-{
-	int i;
-	
-	if(n==0)
-	{
-		for(i=0; i<v.size(); ++i)
-			printf("%d ",v[i]);
-		printf("\n");
-	}
-	
-	else
-	{
-		for(i=0; i<num.size(); ++i)
-		{
-			if(num[i]==0)
-			{
-				v.push_back(i+1);
-				num[i]=1;
-				perm(v, num, n-1);
-				v.pop_back();
-				num[i]=0;
-			}
-
-			else
-				continue;
-		}
-	}
-}
-
 int main(void)
 {
-	int n;
+	int n, i;
 	vector<int> v;
 	
 	scanf("%d",&n);
-	vector<int> num(n);
 	
-	perm(v, num, n);
+	for(i=1; i<=n; ++i)
+		v.push_back(i);
+	
+	do
+	{
+		for(i=0; i<n; ++i)
+			printf("%d ",v[i]);
+		printf("\n");
+	}while(next_permutation(v.begin(), v.end()));
 }
