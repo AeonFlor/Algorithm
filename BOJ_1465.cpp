@@ -3,11 +3,19 @@
 
 using namespace std;
 
+int bitcnt(int n)
+{
+	int c, v=n;
+	for(c=0; v; c++)
+		v&=v-1;
+	return c;
+}
+
 int main(void)
 {
 	int n, low, high;
 	int i,j;
-	int tem_j, diff, min_diff;
+	int diff, diff_val, prev_min;
 	
 	scanf("%d %d %d",&n, &low, &high);
 	
@@ -19,7 +27,7 @@ int main(void)
 	
 	for(i=0; i<n; ++i)
 	{
-		min_diff=51;
+		prev_min=51;
 		
 		if(vec_a[i]>low-1 && vec_a[i]<high+1)
 		{
@@ -29,24 +37,16 @@ int main(void)
 		
 		for(j=low; j<high+1; ++j)
 		{
-			diff=0;
-			tem_j=j;
+			diff = bitcnt(~(~vec_a[i]^j));
 			
-			do
+			if(diff<prev_min)
 			{
-				if(vec_a[i]%2 != tem_j%2)
-					diff++;
-				tem_j/=2;
-			}while(vec_a[i]/=2 || tem_j);
-			
-			if(diff<min_diff)
-			{
-				if(min_diff!=51)
-					vec_b.pop_back();
-				vec_b.push_back(j);
-				min_diff = diff;
+				diff_val = j;
+				prev_min = diff;
 			}
 		}
+		
+		vec_b.push_back(diff_val);
 	}
 	
 	for(i=0; i<n; ++i)
