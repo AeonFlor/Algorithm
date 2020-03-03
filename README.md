@@ -5,6 +5,6 @@
 
 < 진행 중인 문제집 >
 
-#DP : https://www.acmicpc.net/workbook/view/1984
-#중급 : https://www.acmicpc.net/workbook/view/2034
-#정렬 : https://www.acmicpc.net/workbook/view/2071
+>[DP](https://www.acmicpc.net/workbook/view/1984)  
+>[중급](https://www.acmicpc.net/workbook/view/2034)  
+>[정렬](https://www.acmicpc.net/workbook/view/2071)  
