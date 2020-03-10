@@ -15,7 +15,7 @@ int count(int n)
 	if(n==0 || n==1)
 		return ret = 1;
 	
-	return ret = (2*count(n-2)+count(n-1))%100000;
+	return ret = (2*count(n-2)+count(n-1))%10007;
 }
 
 int main(void)
@@ -25,7 +25,7 @@ int main(void)
 	memset(cache,-1,sizeof(cache));
 	
 	scanf("%d", &n);
-	printf("%d\n",count(n)%10007);
+	printf("%d\n",count(n));
 	
 	return 0;
 }
