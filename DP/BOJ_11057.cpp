@@ -9,15 +9,13 @@ long long N;
 long long count(int index, int n)
 {
 	long long& ret = cache[index][n];
-	int rtn;
+	int rtn=0;
 	
 	if(ret!=-1)
 		return ret;
 	
 	if(index==N)
 		return ret=1;
-	
-	rtn=0;
 	
 	for(int i=n; i<10; ++i)
 	{
