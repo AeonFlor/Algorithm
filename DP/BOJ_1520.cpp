@@ -14,30 +14,16 @@ int count(int x, int y)
 	int result = 0;
 	
 	if(ret!=-1)
-	{
-		printf("JUMP!\n");
 		return ret;
-	}
 	
 	if(x==M && y==N)
-	{
-		printf("FIND FLAG!\n");
 		return 1;
-	}
-	/*
-	if(x==0 || x==M+1 || y==0 || y==N+1)
-	{
-		printf("EXCEPTION!! RETURN! ->");
-		return 0;
-	}
-	*/
+
+
 	for(int i=0; i<4; ++i)
 	{
 		if(coor[x][y]>coor[x+dx[i]][y+dy[i]] && !(x+dx[i]==0 || x+dx[i]==M+1 || y+dy[i]==0 || y+dy[i]==N+1))
-		{
-			printf("(%d, %d) -> ", x+dx[i], y+dy[i]);
 			result += count(x+dx[i], y+dy[i]);
-		}
 	}
 	
 	return ret=result;
