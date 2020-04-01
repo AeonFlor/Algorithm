@@ -4,15 +4,12 @@
 
 using namespace std;
 
-int cache[101][10001];
+int cache[10001];
 int coin[101], n, k;
 
-int count(int index, int remainder)
+int count(int remainder)
 {
-	int& ret = cache[index][remainder];
-	
-	if(ret!=10001)
-		return ret;
+	int& ret = cache[remainder];
 	
 	if(remainder==0)
 		return ret = 0;
@@ -20,12 +17,17 @@ int count(int index, int remainder)
 	if(remainder<coin[n])
 		return ret = 10001;
 	
-	for(int i=index; i<=n; ++i)
+	if(ret!=10002)
+		return ret;
+	
+	for(int i=1; i<=n; ++i)
 	{
 		if(coin[i]>remainder)
 			continue;
 		
-		ret = min(ret, 1+count(i, remainder-coin[i]));
+		printf("%d - %d = %d\n",remainder,coin[i],remainder-coin[i]);
+		ret = min(ret, 1+count(remainder-coin[i]));
+		printf("ret : %d\n",ret);
 	}
 	
 	return ret;
@@ -41,9 +43,9 @@ int main(void)
 	
 	sort(coin+1, coin+n+1, greater<int>());
 	
-	fill(&cache[0][0], &cache[0][0] + sizeof(cache)/sizeof(int), 10001);
+	fill_n(cache,10000,10002);
 	
-	result = count(1,k);
+	result = count(k);
 	
 	if(result>10000)
 		result=-1;
