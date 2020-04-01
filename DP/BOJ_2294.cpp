@@ -10,15 +10,18 @@ int coin[101], n, k;
 int count(int remainder)
 {
 	int& ret = cache[remainder];
-	
+	printf("ret --before: %d\n",ret);
 	if(remainder==0)
 		return ret = 0;
 	
 	if(remainder<coin[n])
 		return ret = 10001;
 	
+	printf("ret : %d\n",ret);
 	if(ret!=10002)
 		return ret;
+	
+	printf("check\n");
 	
 	for(int i=1; i<=n; ++i)
 	{
@@ -43,7 +46,10 @@ int main(void)
 	
 	sort(coin+1, coin+n+1, greater<int>());
 	
-	fill_n(cache,10000,10002);
+	fill_n(cache,10001,10002);
+	
+	for(int i=0; i<10; ++i)
+		printf("%d\n",cache[i]);
 	
 	result = count(k);
 	
