@@ -3,8 +3,8 @@
 
 using namespace std;
 
-int cache[501][501];
-int coor[501][501],M,N;
+int cache[502][502];
+int coor[502][502],M,N;
 int dx[4]={0,1,0,-1};
 int dy[4]={1,0,-1,0};
 
@@ -22,7 +22,7 @@ int count(int x, int y)
 
 	for(int i=0; i<4; ++i)
 	{
-		if(coor[x][y]>coor[x+dx[i]][y+dy[i]] && !(x+dx[i]==0 || x+dx[i]==M+1 || y+dy[i]==0 || y+dy[i]==N+1))
+		if(coor[x][y]>coor[x+dx[i]][y+dy[i]])
 			result += count(x+dx[i], y+dy[i]);
 	}
 	
@@ -31,7 +31,7 @@ int count(int x, int y)
 
 int main(void)
 {
-	memset(coor,501,sizeof(coor));
+	memset(coor,10001,sizeof(coor));
 	memset(cache, -1, sizeof(cache));
 	
 	scanf("%d %d", &M, &N);
