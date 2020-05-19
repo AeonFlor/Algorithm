@@ -1,0 +1,61 @@
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
+int nos;
+int stair_score[301];
+int dp[301][4];
+
+int max_ss(int pos, int seq, int depth)
+{
+	if(pos==nos)
+		return stair_score[nos];
+	
+	if(pos>nos)
+		return -3000001;
+	
+	int & res = dp[pos][seq];
+	
+	if(res != -1)
+		return res;
+	
+	if(seq==2)
+		res = stair_score[pos] + max_ss(pos+2,0,depth+1);
+	
+	else
+		res = stair_score[pos] + max(max_ss(pos+1,seq+1,depth+1), max_ss(pos+2,0,depth+1));
+	
+	for(int i=0; i<depth; ++i)
+		printf(">");
+	printf("%d(%d) : %d\n",pos,stair_score[pos],res);
+	
+	return res;
+}
+
+int main(void)
+{
+	fill_n(&dp[0][0],301*4,-1);
+	
+	scanf("%d", &nos);
+	
+	for(int i=0; i<nos; ++i)
+		scanf("%d",&stair_score[i]);
+	
+	printf("%d",max_ss(0, 0, 1));
+	
+	return 0;
+}
+
+/* 
+평소에 쓰던 Bottom-UP 방식 말고, TOP-down 이 적합해보여서 이 방식으로 풀어보았다. -> BOTTOM-UP 이 더 적합해보여서 바꿨다. 어느거로 해도 상관은 없지만 올라간다는 이미지로 푸는게 더 직관적으로 다가와서 이렇게 풀었다.
+
+dp[pos] 로만 두고 풀면 seq 에 따라 res 가 달라지는 데 이는 첫 값으로 고정되어 잘못된 결과를 도출한다.
+dp 에 seq 까지 추가했다.
+
+dp가 2차원인데 1차원으로 잘못 초기화하면 in file included from /usr/include/c++/9/algorithm:61 와 같이 긴 에러가 나온다.
+
+잘 되는지 확인용.
+DEPTH 를 통해 깊이를 확인한 판단이 사용되지는 않았지만 좋은 아이디어인 것 같다.
+그리고 풀면서 안보이던 게 나중에 보니까 보인다.
+*/
