@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -7,15 +8,16 @@ int main(void)
 	ios_base::sync_with_stdio(false);
 	cin.tie(0);
 	
-	int N, num, sum=0;
-	
+	int N, sum=0;	
 	cin>>N;
+	
+	string num,temp;
 	cin>>num;
 	
-	while(num)
+	for(int i=0; i<N; ++i)
 	{
-		sum+=num%10;
-		num/=10;
+		temp = num[i];
+		sum+=atoi(temp.c_str());
 	}
 	
 	cout<<sum<<'\n';
