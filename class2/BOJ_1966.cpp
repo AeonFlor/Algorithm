@@ -8,56 +8,26 @@ void clear_queue(queue<int>* queue)
 {
 	while(!queue->empty())
 		queue->pop();
-	
-	cout<<"Queue Cleared!\n";
 }
 
 void clear_queue(priority_queue<int>* queue)
 {
 	while(!queue->empty())
 		queue->pop();
-	
-	cout<<"Queue Cleared!\n";
-}
-
-// Queue 출력하는 함수
-void print_queue(queue<int> queue)
-{
-	int size = queue.size();
-	for(int i=0; i<size; ++i)
-		{
-			cout<<"["<<queue.front()<<"] ";
-			queue.pop();
-		}
-		cout<<"\n";
-}
-
-void print_queue(priority_queue<int> queue)
-{
-	int size = queue.size();
-	for(int i=0; i<size; ++i)
-		{
-			cout<<"["<<queue.top()<<"] ";
-			queue.pop();
-		}
-		cout<<"\n";
 }
 
 int main(void)
 {
-	int T,N,M,input,cnt=0;
+	int T,N,M,input,cnt;
 	queue<int> sequence;
 	priority_queue<int> priority;
 	
-	queue<int> test_q;
-	priority_queue<int> test_pq;
-	
-	cout<<"Input T : ";
 	cin>>T;
 	
 	for(int i=0; i<T; ++i)
 	{
-		cout<<"Input N,M : ";
+		cnt = 0;
+		
 		cin>>N>>M;
 		
 		clear_queue(&sequence);
@@ -70,37 +40,14 @@ int main(void)
 			priority.push(input);
 		}
 		
-		// print_queue, clear_queue 잘 되는지 확인
-		
-		cout<<"Print sequence\n";
-		print_queue(sequence);
-		cout<<"Print priority\n";
-		print_queue(priority);
-		
-		test_q = sequence;
-		test_pq = priority;
-		
-		cout<<"Print test_q\n";
-		print_queue(test_q);
-		cout<<"Print test_pq\n";
-		print_queue(test_pq);
-		
-		clear_queue(&test_q);
-		clear_queue(&test_pq);
-		
-		cout<<"After Cleaning...\n";
-		
-		cout<<"Print test_q\n";
-		print_queue(test_q);
-		cout<<"Print test_pq\n";
-		print_queue(test_pq);
-		
 		while(true)
 		{
+			if(sequence.front()==0 || priority.top()==0)
+				break;
+			
 			if(priority.top()==sequence.front())
 			{
 				++cnt;
-				cout<<"Print "<<sequence.front()<<"\n";
 				
 				if(M--==0)// 처음 M 이 0인지 확인해야 되기에 후위 감소자로 해야됨.
 					break;
@@ -112,7 +59,6 @@ int main(void)
 			else
 			{
 				sequence.push(sequence.front());
-				cout<<"Relocation "<<sequence.front()<<"\n";
 				sequence.pop();
 				
 				if(M--==0)
