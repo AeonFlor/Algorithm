@@ -3,32 +3,42 @@
 
 using namespace std;
 
-int dx[4] = {0,0,1,0};
-int dy[4] = {0,1,-1,1};
-int N,r,c,cnt=-1;
+int dx[4] = {0,0,1,1};
+int dy[4] = {0,1,0,1};
+int N,r,c,cnt=0;
 bool isFind=false;
 
-void recursive(int length, int x, int y)
+int check_div(int length,int x,int y)
 {
-	if(length == 1)
+	if(r<x+length)
 	{
-		cnt++;
-		
-		if(x==r && y==c)
-			isFind=true;
+		if(c<y+length)
+			return 0;
+		else
+			return 1;
 	}
 	
 	else
 	{
-		for(int i=0; i<4; ++i)
-		{
-			x += length/2 * dx[i%4];
-			y += length/2 * dy[i%4];
-			
-			if(!isFind)
-				recursive(length/2,x,y);
-		}
+		if(c<y+length)
+			return 2;
+		else
+			return 3;
 	}
+}
+
+void recursive(int length, int x, int y)
+{
+	if(length==1)
+		return;
+	
+	int div=check_div(length/2,x,y);
+	x += length/2 * dx[div];
+	y += length/2 * dy[div];
+		
+	cnt+=pow(length/2,2)*div;
+	//cout<<"Length : "<<length<<" Div : "<<div+1<<" cord("<<x<<","<<y<<") -> "<<cnt<<'\n';
+	recursive(length/2,x,y);
 }
 
 int main(void)
