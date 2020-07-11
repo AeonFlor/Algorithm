@@ -79,17 +79,37 @@ class stack
 				return 0;
 		}
 	
-		void pop()
+		int pop()
 		{
 			if(empty())
-				cout<<"-1\n";
+				return -1;
 			else
 			{
-				cout<<tail->data<<'\n';
-				// can't access tail.
-				//tail = tail->prev;
-				tail->next = NULL;
+				int temp = tail->data;
+				if(getSize()==1)
+				{
+					delete head;
+					tail=head=NULL;
+				}
+				else
+				{
+					tail = tail->prev;
+					delete tail->next;
+					tail->next = NULL;
+				}
 				--size;
+				return temp;
+			}
+		}
+	
+		~stack()
+		{
+			while(head!=NULL)
+			{
+				if(empty())
+					break;
+				else
+					pop();
 			}
 		}
 };
@@ -116,7 +136,7 @@ int main(void)
 		}
 		
 		if(cmd=="pop")
-			s.pop();
+			cout<<s.pop()<<'\n';
 		
 		if(cmd=="size")
 			cout<<s.getSize()<<'\n';
