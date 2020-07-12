@@ -1,6 +1,42 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
+
+void quick_sort(vector<int>& arr, int s, int e)
+{
+	int pivot = arr[s];
+	int bs = s, be = e;
+	int temp;
+	
+	while(s<e)
+	{
+		while(pivot<=arr[e] && s<e)
+			e--;
+		
+		if(s>e)
+			break;
+		
+		while(pivot>=arr[s] && s<e)
+			s++;
+		
+		if(s>e)
+			break;
+		
+		temp = arr[s];
+		arr[s] = arr[e];
+		arr[e] = temp;
+	}
+	
+	temp = arr[s];
+	arr[s] = arr[bs];
+	arr[bs] = temp;
+	
+	if(bs<s)
+		quick_sort(arr,bs,s-1);
+	if(be>e)
+		quick_sort(arr,s+1,be);
+}
 
 int main(void)
 {
@@ -10,22 +46,12 @@ int main(void)
 	int N,temp,min;
 	cin>>N;
 	
-	int arr[N];
+	vector<int> arr(N);
 	
 	for(int i=0; i<N; ++i)
 		cin>>arr[i];
 	
-	for(int i=0; i<N-1; ++i)
-	{
-		min = i;
-		for(int j=i+1; j<N; ++j)
-			if(arr[min]>=arr[j])
-				min = j;
-		
-		temp = arr[min];
-		arr[min] = arr[i];
-		arr[i] = temp;
-	}
+	quick_sort(arr,0,N-1);
 	
 	for(int i=0; i<N; ++i)
 		cout<<arr[i]<<'\n';
