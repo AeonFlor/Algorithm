@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
 
 using namespace std;
 
@@ -9,49 +8,45 @@ int main(void)
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	
-	int N,M,input;
-	bool check=true;
-	vector<pair<int,int>> having;
+	int N,M,input,cnt;
+	int left, mid, right;
+	
 	cin>>N;
+	int cards[N];
 	
 	for(int i=0; i<N; ++i)
-	{
-		cin>>input;
-		
-		for(int j=0; j<having.size(); ++j)
-		{
-			if(input==having[j].first)
-			{
-				++having[j].second;
-				check = false;
-			}
-		}
-		
-		if(check)
-			having.push_back(pair<int,int>(input,1));
-		
-		check = true;
-	}
+		cin>>cards[i];
+	
+	sort(cards,cards+N);
+	
+	for(int i=0; i<N; ++i)
+		cout<<cards[i]<<" ";
+	cout<<'\n';
 	
 	cin>>M;
-	
 	for(int i=0; i<M; ++i)
 	{
 		cin>>input;
+		cnt=0;
+		left = 0;
+		right = N-1;
+		mid = N/2;
 		
-		for(int j=0; j<having.size(); ++j)
+		while(right-left>=0)
 		{
-			if(input==having[j].first)
-			{
-				cout<<having[j].second<<" ";
-				check = false;
-			}
+			if(cards[mid]<input)
+				left=mid+1;
+			else if(cards[mid]>input)
+				right=mid-1;
+			else
+				break;
+			mid = right+left/2;
 		}
 		
-		if(check)
-			cout<<"0 ";
+		for(int j=mid; cards[j]==cards[mid]; ++j)
+			++cnt;
 		
-		check=true;
+		cout<<cnt<<" ";
 	}
 	cout<<'\n';
 	
