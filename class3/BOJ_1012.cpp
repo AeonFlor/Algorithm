@@ -2,6 +2,22 @@
 
 using namespace std;
 
+bool field[52][52]={false};
+
+void find(int x, int y)
+{
+	field[x][y]=false;
+	
+	if(field[x+1][y])
+		find(x+1,y);
+	if(field[x][y+1])
+		find(x,y+1);
+	if(field[x-1][y])
+		find(x-1,y);
+	if(field[x][y-1])
+		find(x,y-1);
+}
+
 int main(void)
 {
 	ios_base::sync_with_stdio(false);
@@ -17,8 +33,6 @@ int main(void)
 		
 		cin>>M>>N>>K;
 		
-		bool field[M+2][N+2]={false};
-		
 		for(int j=0; j<K; ++j)
 		{
 			cin>>x>>y;
@@ -30,20 +44,7 @@ int main(void)
 				if(field[k][j])
 				{
 					++ans;
-					x=k;
-					y=j;
-					field[x][y]=false;
-					while(field[x-1][y] || field[x+1][y] || field[x][y-1] || field[x][y+1])
-					{
-						while(field[++x][y] && x<M+1)
-							field[x][y]=false;
-						while(field[x][++y] && y<N+1)
-							field[x][y]=false;
-						while(field[--x][y] && x>0)
-							field[x][y]=false;
-						while(field[x][--y] && y>0)
-							field[x][y]=false;
-					}
+					find(k,j);
 				}
 		
 		cout<<ans<<'\n';
