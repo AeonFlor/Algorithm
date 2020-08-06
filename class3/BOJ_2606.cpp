@@ -1,20 +1,19 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
 int v,e;
-vector<vector<int>> adj;
-vector<bool> visited;
+bool adj[101][101] = {false};
+bool visited[101] = {false};
 
 int dfs(int n)
 {
 	int cnt=0;
 	visited[n] = true;
 	
-	for(int i=1; i<adj[n].size(); ++i)
-		if(!visited[adj[n][i]])
-			cnt=cnt+1+dfs(adj[n][i]);
+	for(int i=1; i<=v; ++i)
+		if(!visited[i] && adj[n][i])
+			cnt=cnt+1+dfs(i);
 	
 	return cnt;
 }
@@ -22,22 +21,12 @@ int dfs(int n)
 int main(void)
 {
 	int in, out;
-	vector<int> init(1);
 	cin>>v>>e;
-	
-	visited.push_back(false);
-	
-	for(int i=0; i<v; ++i)
-	{
-		adj.push_back(init);
-		visited.push_back(false);
-	}
 	
 	for(int i=0; i<e; ++i)
 	{
 		cin>>in>>out;
-		adj[in].push_back(out);
-		adj[out].push_back(in);
+		adj[in][out]=adj[out][in]=true;
 	}
 	
 	cout<<dfs(1)<<'\n';
