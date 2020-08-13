@@ -36,27 +36,17 @@ int main(void)
 				flag = true;
 			
 			if(!visited[prc[i]-1] && prc[i]-1>-1)
-			{
-				cout<<"INPUT QUEUE : "<<prc[i]-1<<'\n';
 				rsv.push_back(prc[i]-1);
-			}
 			
 			if(!visited[prc[i]/2] && prc[i]%2==0)
-			{
-				cout<<"INPUT QUEUE : "<<prc[i]/2<<'\n';
 				rsv.push_back(prc[i]/2);
-			}
 			
 			if(!visited[prc[i]+1] && prc[i]+1<100001)
-			{
-				cout<<"INPUT QUEUE : "<<prc[i]+1<<'\n';
 				rsv.push_back(prc[i]+1);
-			}
 		}
 		
 		q.push(rsv);
 		++ans;
-		cout<<"LEVEL : "<<ans<<"\n\n";
 	}
 	
 	cout<<ans-1<<'\n';
