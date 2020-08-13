@@ -1,35 +1,65 @@
-// 좌표 100000 넘어갈 수 있나?
 #include <iostream>
-#include <algorithm>
+#include <vector>
+#include <queue>
 
 using namespace std;
 
-int N, K;
-bool visited[100001] = {false};
-
-int hide8seek(int pos)
-{	
-	if(pos==K)
-		return 1;
-	
-	if(visited)
-		return 100001;
-	
-	visited[pos]=true;
-	
-	if(pos<0 || pos>100000) // 루프 돌아서 한 번 방문한 곳이면 false
-		return 100001;
-	
-	if(pos != 0)
-		return min(hide8seek(pos*2),min(hide8seek(pos-1),hide8seek(pos+1)));
-	
-	else
-		return min(hide8seek(pos-1),hide8seek(pos+1));
-}
-
 int main(void)
 {
-	cin >> N >> K;
-
-	cout << hide8seek(N) << '\n';
+	int N,K;
+	
+	cin>>N>>K;
+	
+	vector<bool> visited(100000,false);
+	vector<int> prc;
+	vector<int> rsv;
+	int ans = 0;
+	bool flag = false;
+	
+	if(K<N)
+		return N-K;
+	
+	queue<vector<int>> q;
+	q.push(vector<int>(1,K));
+	
+	while(!flag)
+	{
+		prc = q.front();
+		rsv.clear();
+		q.pop();
+		
+		for(int i=0; i<prc.size(); ++i)
+		{
+			visited[prc[i]]=true;
+			
+			if(prc[i]==N)
+				flag = true;
+			
+			if(!visited[prc[i]-1] && prc[i]-1>-1)
+			{
+				cout<<"INPUT QUEUE : "<<prc[i]-1<<'\n';
+				rsv.push_back(prc[i]-1);
+			}
+			
+			if(!visited[prc[i]/2] && prc[i]%2==0)
+			{
+				cout<<"INPUT QUEUE : "<<prc[i]/2<<'\n';
+				rsv.push_back(prc[i]/2);
+			}
+			
+			if(!visited[prc[i]+1] && prc[i]+1<100001)
+			{
+				cout<<"INPUT QUEUE : "<<prc[i]+1<<'\n';
+				rsv.push_back(prc[i]+1);
+			}
+		}
+		
+		q.push(rsv);
+		++ans;
+		cout<<"LEVEL : "<<ans<<"\n\n";
+	}
+	
+	cout<<ans-1<<'\n';
+	
+	return 0;
 }
