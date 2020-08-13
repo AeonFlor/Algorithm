@@ -17,7 +17,10 @@ int main(void)
 	bool flag = false;
 	
 	if(K<N)
-		return N-K;
+	{
+		ans = N-K+1;
+		flag = true;
+	}
 	
 	queue<vector<int>> q;
 	q.push(vector<int>(1,K));
@@ -33,7 +36,10 @@ int main(void)
 			visited[prc[i]]=true;
 			
 			if(prc[i]==N)
+			{
 				flag = true;
+				break;
+			}
 			
 			if(!visited[prc[i]-1] && prc[i]-1>-1)
 				rsv.push_back(prc[i]-1);
