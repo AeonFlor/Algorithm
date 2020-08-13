@@ -41,13 +41,13 @@ int main(void)
 				break;
 			}
 			
-			if(!visited[prc[i]-1] && prc[i]-1>-1)
+			if(prc[i]-1>-1 && !visited[prc[i]-1])
 				rsv.push_back(prc[i]-1);
 			
-			if(!visited[prc[i]/2] && prc[i]%2==0)
+			if(prc[i]%2==0 && !visited[prc[i]/2])
 				rsv.push_back(prc[i]/2);
 			
-			if(!visited[prc[i]+1] && prc[i]+1<100001)
+			if(prc[i]+1<100001 && !visited[prc[i]+1])
 				rsv.push_back(prc[i]+1);
 		}
 		
