@@ -9,22 +9,6 @@ bool visited[1002][1002];
 int dx[4] = {0,1,0,-1};
 int dy[4] = {1,0,-1,0};
 
-void print()
-{
-	for(int i=0; i<=N+1; ++i)
-	{
-		for(int j=0; j<=M+1; ++j)
-		{
-			cout.fill(' ');
-			cout.width(2);
-			cout<<box[j][i]<<' ';
-		}
-		cout<<'\n';
-	}
-	
-	cout<<"=====================\n";
-}
-
 int simulate()
 {
 	for(int i=1; i<=N; ++i)
@@ -46,7 +30,6 @@ int simulate()
 							box[j+dx[k]][i+dy[k]]=1;
 							--cnt;
 						}
-		//print();
 		++ans;
 	}
 	
@@ -65,8 +48,6 @@ int main(void)
 			if(box[j][i]==0)
 				++cnt;
 		}
-	
-	//print();
 	
 	cout<<simulate()<<'\n';
 }
