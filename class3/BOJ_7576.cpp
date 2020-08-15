@@ -1,53 +1,84 @@
 #include <iostream>
-#include <algorithm>
+#include <queue>
 
 using namespace std;
 
-int M,N,cnt=0,ans=0;
+int M,N,cnt=0,ans=0, x, y;
 int box[1002][1002];
-bool visited[1002][1002];
 int dx[4] = {0,1,0,-1};
 int dy[4] = {1,0,-1,0};
 
-int simulate()
+void print()
 {
-	for(int i=1; i<=N; ++i)
-		for(int j=1; j<=M; ++j)
-			if(box[j][i]==0 && box[j+1][i] + box[j][i+1] + box[j-1][i] + box[j][i-1] == -4)
-				return -1;
-				
-	while(cnt>0)
+	for(int i=0; i<=N+1; ++i)
 	{
-		fill(&visited[0][0],&visited[1001][1001],false);
-		
-		for(int i=1; i<=N; ++i)
-			for(int j=1; j<=M; ++j)
-				if(!visited[j][i] && box[j][i]==1)
-					for(int k=0; k<4; ++k)
-						if(!visited[j+dx[k]][i+dy[k]] && box[j+dx[k]][i+dy[k]]==0)
-						{
-							visited[j+dx[k]][i+dy[k]] = true;
-							box[j+dx[k]][i+dy[k]]=1;
-							--cnt;
-						}
-		++ans;
+		for(int j=0; j<=M+1; ++j)
+		{
+			cout.fill(' ');
+			cout.width(2);
+			cout<<box[j][i]<<' ';
+		}
+		cout<<'\n';
 	}
-	
-	return ans;
+
+	cout<<"=====================\n";
 }
 
 int main(void)
 {
-	fill(&box[0][0], &box[1001][1001],-1);
+	
+	queue<vector<pair<int,int>>> q;
+	vector<pair<int,int>> coor;
+	vector<pair<int,int>> temp;
+	
+	fill(&box[0][0], &box[1001][1001],-1); // 이거 때문
 	cin>>M>>N;
 	
 	for(int i=1; i<=N; ++i)
 		for(int j=1; j<=M; ++j)
 		{
 			cin>>box[j][i];
+			
 			if(box[j][i]==0)
 				++cnt;
+			else if(box[j][i]==1)
+				coor.push_back(make_pair(j,i));
 		}
 	
-	cout<<simulate()<<'\n';
+	print();
+	
+	q.push(coor);
+	
+	while(!q.empty())
+	{
+		coor.clear();
+		coor = q.front();
+		q.pop();
+		cout<<"coor size is "<<coor.size()<<'\n';
+		for(int i=0; i<coor.size(); ++i)
+			for(int j=0; j<4; ++j)
+			{
+				x = coor[i].first;
+				y = coor[i].second;
+				if(box[x+dx[j]][y+dy[j]]==0)
+				{
+					box[x+dx[j]][y+dy[j]] = 1;
+					temp.push_back(make_pair(x+dx[j], y+dy[j]));
+					--cnt;
+				}
+			}
+		
+		if(!temp.empty())
+			q.push(temp);
+		temp.clear();
+		++ans;
+		
+		//print();
+	}
+	
+	if(cnt)
+		cout<<"-1\n";
+	else
+		cout<<ans-1<<'\n';
+	
 }
