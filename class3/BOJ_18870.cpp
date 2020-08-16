@@ -1,14 +1,14 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <algorithm>
 
 using namespace std;
 
 int main(void)
 {
 	int N, input;
-	set<int> coor;
 	vector<int> seq;
+	vector<int> sorted;
 	
 	
 	cin>>N;
@@ -16,13 +16,16 @@ int main(void)
 	for(int i=0; i<N; ++i)
 	{
 		cin>>input;
-		coor.insert(input);
 		seq.push_back(input);
 	}
 	
-	for(int i=0; i<seq.size(); ++i)
+	sorted = seq;
+	sort(sorted.begin(),sorted.end());
+	sorted.erase(unique(sorted.begin(),sorted.end()),sorted.end());
+	
+	for(int i=0; i<N; ++i)
 	{
-		cout<<coor.find(seq[i])-coor.begin()<<' ';
+		cout<<find(sorted.begin(),sorted.end(),seq[i])-sorted.begin()<<' ';
 	}
 	cout<<'\n';
 }
