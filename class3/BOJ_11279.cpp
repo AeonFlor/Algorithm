@@ -6,14 +6,6 @@ using namespace std;
 
 vector<int> heap;
 
-void print()
-{
-	cout<<"================\n";
-	for(int i=0; i<heap.size(); ++i)
-		cout<<heap[i]<<' ';
-	cout<<"\n================\n";
-}
-
 void insert_heap(int n)
 {
 	int cur = heap.size();
@@ -77,14 +69,10 @@ int main(void)
 			{
 				cout<<heap[0]<<'\n';
 				delete_heap();
-				//print();
 			}
 		}
 		
 		else
-		{
 			insert_heap(x);
-			//print();
-		}
 	}
 }
