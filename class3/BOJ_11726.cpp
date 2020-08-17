@@ -1,16 +1,31 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
+int cache[1000];
+
+int dp(int n)
+{
+	int& res = cache[n];
+	
+	if(n<3)
+		return n;
+	
+	if(res!=-1)
+		return res;
+	
+	return res = (dp(n-1) + dp(n-2))%10007;
+}
+
+
 int main(void)
 {
- 	int ans[1001]={1,2,};
+	fill(cache, cache+1001,-1);
+	
 	int n;
 	
 	cin>>n;
 	
-	for(int i=2; i<n; ++i)
-		ans[i] = (ans[i-1] + ans[i-2])%10007;
-	
-	cout<<ans[n-1]<<'\n';
+	cout<<dp(n)<<'\n';
 }
