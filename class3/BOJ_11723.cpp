@@ -1,15 +1,16 @@
 #include <iostream>
 #include <string>
-#include <set>
 
 using namespace std;
 
 int main(void)
 {
-	int M, x;
-	string com;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 	
-	set<int> S;
+	int M, x;
+	bool S[21] = {false,};
+	string com;
 	
 	cin>>M;
 	
@@ -17,40 +18,41 @@ int main(void)
 	{
 		cin>>com;
 		
-		if(!com.compare("add"))
+		if(com == "add")
 		{
-				cin>>x;
-				S.insert(x);
+			cin>>x;
+			S[x] = true;
 		}
 				
-		else if(!com.compare("remove"))
+		else if(com == "remove")
 		{
-				cin>>x;
-				S.erase(S.find(x));
+			cin>>x;
+			S[x] = false;
 		}
 				
-		else if(!com.compare("check"))
+		else if(com == "check")
 		{
-				cin>>x;
-				cout<<S.count(x)<<'\n';
+			cin>>x;
+			cout<<(S[x])?1:0;
+			cout<<'\n';
 		}
 				
-		else if(!com.compare("toggle"))
+		else if(com == "toggle")
 		{
-				cin>>x;
-				if(S.find(x)!=S.end())
-					S.erase(S.find(x));
-				else
-					S.insert(x);
+			cin>>x;
+			S[x] = !S[x];
 		}
 				
-		else if(!com.compare("all"))
+		else if(com == "all")
 		{
-				for(int i=1; i<21; ++i)
-					S.insert(i);
+			for(int i=1; i<21; ++i)
+				S[i] = true;
 		}
 				
-		else if(!com.compare("empty"))
-				S.clear();
+		else if(com == "empty")
+		{
+			for(int i=1; i<21; ++i)
+				S[i] = false;
+		}
 	}
 }
