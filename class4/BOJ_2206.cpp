@@ -1,20 +1,21 @@
 #include <iostream>
 #include <queue>
+#include <tuple>
 #include <algorithm>
 
 using namespace std;
 
 int main(void)
 {
+	// 먼저 (x,y) 에 도달한 건 나중에 도달한 것보다 무조건 빨리 나아감. 따라서 visited 로 메모리 낭비 줄임.
 	int map[1002][1002];
+	bool visited[1002][1002] = {false,};
 	int dx[4] = {0,1,0,-1};
 	int dy[4] = {1,0,-1,0};
 	
-	queue<vector<pair<pair<int,int>,bool>>> q;
-	vector<pair<pair<int,int>,bool>> tmp;
-	vector<pair<pair<int,int>,bool>> list;
+	queue<tuple<int, int, bool>> q;
 	
-	int N, M, x, y, input, ans = 0;
+	int N, M, x, y, input, next_rep, ans = 0, rep = 1;
 	bool isbroken, isFind = false;
 	
 	fill(&map[0][0], &map[1001][1001], 2);
@@ -42,20 +43,18 @@ int main(void)
 	}
 	*/
 	
-	tmp.push_back(make_pair(make_pair(1,1),false));
-	q.push(tmp);
+	q.push(make_tuple(1,1,false));
 	
 	while(!q.empty() && !isFind)
 	{
-		tmp = q.front();
-		q.pop();
+		next_rep=0;
 		
-		for(int l=0; l<tmp.size(); ++l)
+		while(rep--)
 		{
-			x = tmp[l].first.first;
-			y = tmp[l].first.second;
-			isbroken = tmp[l].second;
-
+			tie(x, y, isbroken) = q.front();
+			q.pop();
+			visited[x][y] = true;
+			
 			//cout<<"Trial "<<ans<<" : ("<<x<<", "<<y<<") - "<<(isbroken)?"True":"False";
 			//cout<<'\n';
 			
@@ -67,18 +66,20 @@ int main(void)
 
 			for(int i=0; i<4; ++i)
 			{
-				if(map[x+dx[i]][y+dy[i]] == 0)
-					list.push_back(make_pair(make_pair(x+dx[i],y+dy[i]),isbroken));
-				else if(!isbroken && map[x+dx[i]][y+dy[i]]==1)
-					list.push_back(make_pair(make_pair(x+dx[i],y+dy[i]),true));
+				if(!visited[x+dx[i]][y+dy[i]] && map[x+dx[i]][y+dy[i]] == 0)
+				{
+					q.push(make_tuple(x+dx[i],y+dy[i],isbroken));
+					++next_rep;
+				}
+				else if(!isbroken && !visited[x+dx[i]][y+dy[i]] && map[x+dx[i]][y+dy[i]]==1)
+				{
+					q.push(make_tuple(x+dx[i],y+dy[i],true));
+					++next_rep;
+				}
 			}
 		}
 		
-		if(!list.empty())
-			q.push(list);
-		list.clear();
-		tmp.clear();
-		
+		rep = next_rep;
 		++ans;
 	}
 	
