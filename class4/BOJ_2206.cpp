@@ -9,7 +9,7 @@ int main(void)
 {
 	// 먼저 (x,y) 에 도달한 건 나중에 도달한 것보다 무조건 빨리 나아감. 따라서 visited 로 메모리 낭비 줄임.
 	int map[1002][1002];
-	bool visited[1002][1002] = {false,};
+	bool visited[1002][1002][2] = {false,};
 	int dx[4] = {0,1,0,-1};
 	int dy[4] = {1,0,-1,0};
 	
@@ -53,7 +53,6 @@ int main(void)
 		{
 			tie(x, y, isbroken) = q.front();
 			q.pop();
-			visited[x][y] = true;
 			
 			//cout<<"Trial "<<ans<<" : ("<<x<<", "<<y<<") - "<<(isbroken)?"True":"False";
 			//cout<<'\n';
@@ -66,14 +65,16 @@ int main(void)
 
 			for(int i=0; i<4; ++i)
 			{
-				if(!visited[x+dx[i]][y+dy[i]] && map[x+dx[i]][y+dy[i]] == 0)
+				if(!visited[x+dx[i]][y+dy[i]][isbroken] && map[x+dx[i]][y+dy[i]] == 0)
 				{
 					q.push(make_tuple(x+dx[i],y+dy[i],isbroken));
+					visited[x+dx[i]][y+dy[i]][isbroken] = true;
 					++next_rep;
 				}
-				else if(!isbroken && !visited[x+dx[i]][y+dy[i]] && map[x+dx[i]][y+dy[i]]==1)
+				else if(!isbroken && !visited[x+dx[i]][y+dy[i]][1] && map[x+dx[i]][y+dy[i]]==1)
 				{
 					q.push(make_tuple(x+dx[i],y+dy[i],true));
+					visited[x+dx[i]][y+dy[i]][1] = true;
 					++next_rep;
 				}
 			}
