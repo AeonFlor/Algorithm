@@ -7,7 +7,6 @@ using namespace std;
 
 int main(void)
 {
-	// 먼저 (x,y) 에 도달한 건 나중에 도달한 것보다 무조건 빨리 나아감. 따라서 visited 로 메모리 낭비 줄임.
 	int map[1002][1002];
 	bool visited[1002][1002][2] = {false,};
 	int dx[4] = {0,1,0,-1};
@@ -31,19 +30,8 @@ int main(void)
 			input/=10;
 		}
 	}
-	
-	/*
-	for(int i=0; i<N+2; ++i)
-	{
-		for(int j=0; j<M+2; ++j)
-		{
-			cout<<map[i][j];
-		}
-		cout<<'\n';
-	}
-	*/
-	
-	q.push(make_tuple(1,1,false));
+    
+	q.push(make_tuple(1,1,map[1][1]==1));
 	
 	while(!q.empty() && !isFind)
 	{
@@ -53,10 +41,7 @@ int main(void)
 		{
 			tie(x, y, isbroken) = q.front();
 			q.pop();
-			
-			//cout<<"Trial "<<ans<<" : ("<<x<<", "<<y<<") - "<<(isbroken)?"True":"False";
-			//cout<<'\n';
-			
+            
 			if(x==N && y==M)
 			{
 				isFind = true;
