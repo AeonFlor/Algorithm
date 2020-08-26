@@ -7,6 +7,9 @@ using namespace std;
 
 int main(void)
 {
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+	
 	// 먼저 (x,y) 에 도달한 건 isbroken 상태가 같다면 나중에 도달한 것보다 무조건 빨리 진행된다.
 	int map[1002][1002];
 	bool visited[1002][1002][2] = {false,};
@@ -19,21 +22,27 @@ int main(void)
     // rep 은 BFS 한 번 확인할 때 큐에 들어가 있는 좌표의 수이다.
     // next_rep 은 이번 rep 에서 큐에 넣은 좌표의 수이다. (1,1) 넣으면 rep 이 1 이므로 미리 초기화했다.
     // isFind 는 (N,M) 에 도착했는지 여부를 확인하는 bool 변수이다.
-	int N, M, x, y, input, next_rep, ans = 0, rep = 1;
+	int N, M, x, y, next_rep, ans = 0, rep = 1;
 	bool isbroken, isFind = false;
+	char input;
 	
 	fill(&map[0][0], &map[1001][1001], 2);
 	
 	cin>>N>>M;
 	
     // 숫자를 붙여서 입력하기에 0,1 중 하나이니 10으로 나눈 나머지로 입력했다.
+	// 입력은 1000자리까지..! int 형에 못 담는다..! 조심해!
 	for(int i=1; i<=N; ++i)
 	{
-		cin>>input;
-		for(int j=M; j>0; --j)
+		for(int j=1; j<=M; ++j)
 		{
-			map[i][j]=input%10;
-			input/=10;
+			input = cin.get();
+			
+			if(input!='\n')
+				map[i][j] = input-'0';
+			
+			else
+				--j;
 		}
 	}
 	
