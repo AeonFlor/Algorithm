@@ -45,8 +45,6 @@ int main(void)
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 	
-	vector<pair<int,int>> ans;
-	
 	cin>>N>>M;
 	
 	while(M--)
@@ -59,12 +57,9 @@ int main(void)
 	
 	circuit();
 	
+	cout<<N-1<<'\n';
+	
 	for(int i=1; i<=N; ++i)
 		if(via[i] != -1)
-			ans.push_back(make_pair(i,via[i]));
-	
-	cout<<ans.size()<<'\n';
-	
-	for(int i=0; i<ans.size(); ++i)
-		cout<<ans[i].first<<' '<<ans[i].second<<'\n';
+			cout<<i<<' '<<via[i]<<'\n';
 }
