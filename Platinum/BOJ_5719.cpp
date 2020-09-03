@@ -7,13 +7,11 @@ using namespace std;
 int N, M, S, D, U, V, P;
 const int INF = 10000001;
 vector<pair<int, int>> adj[500];
-vector<int> distPrior;
-vector<int> ParentPrior;
+priority_queue<pair<int,int>> Parent[500];
 
-void almost_shotest(int size, int src)
+int almost_shotest(int size, int src)
 {
 	vector<int> dist(size, INF);
-	vector<int> Parent(size, -1);
 	priority_queue<pair<int,int>> q;
 	
 	dist[src] = 0;
@@ -25,8 +23,6 @@ void almost_shotest(int size, int src)
 		int cost = -q.top().first;
 		q.pop();
 		
-		//cout<<here<<", "<<cost<<'\n';
-		
 		if(dist[here] < cost)
 			continue;
 		
@@ -35,51 +31,50 @@ void almost_shotest(int size, int src)
 			int there = adj[here][i].second;
 			int nextDist = cost + adj[here][i].first;
 			
-			if(nextDist < dist[there])
+			if(nextDist <= dist[there])
 			{
 				dist[there] = nextDist;
 				q.push(make_pair(-nextDist, there));
-				Parent[there] = here;
+				Parent[there].push(make_pair(-nextDist, here));
 			}
 		}
 	}
 	
-	distPrior = dist;
-	ParentPrior = Parent;
+	return dist[D];
 }
 
-void eraseEdge()
+void eraseEdge(int child, int min_dist)
 {
-	// 같은 거리인 것들 다 없앰.
-	//cout<<"END POINT : "<<distPrior[D]<<'\n';
+	vector<int> list;
 	
-	int parent, child = D;
-	
-	while(ParentPrior[child] != -1)
+	while(!Parent[child].empty())
 	{
-		parent = ParentPrior[child];
-		//cout<<"[START]\n";
-		for(int i=0; i<adj[parent].size(); ++i)
+		if(-Parent[child].top().first == min_dist)
 		{
-			// 최대 1개이므로 지워도 이렇게 찾아도 됨.
-			if(adj[parent][i].second == child)
+			int parent = Parent[child].top().second;
+			for(int i=0; i<adj[parent].size(); ++i)
 			{
-				//cout<<"[Erase] "<<parent<<" -> "<<child<<'\n';
-				adj[parent].erase(adj[parent].begin()+i);
-				continue;
+				if(adj[parent][i].second == child)
+				{
+					adj[parent].erase(adj[parent].begin()+i);
+					list.push_back(parent);
+					break;
+				}
 			}
 		}
 		
-		child = parent;
+		Parent[child].pop();
 	}
-	
-	almost_shotest(N, S);
+		
+	for(int i=0; i<list.size(); ++i)
+		if(list[i]!=S)
+			eraseEdge(list[i], -Parent[list[i]].top().first);
 }
 
 int main(void)
 {
-	//ios_base::sync_with_stdio(0);
-	//cin.tie(0);
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	
 	while(cin>>N>>M && (N||M))
 	{
@@ -90,24 +85,22 @@ int main(void)
 			cin>>U>>V>>P;
 			adj[U].push_back(make_pair(P,V));
 		}
-
-		almost_shotest(N, S);
-		int value = distPrior[D];
 		
-		while(distPrior[D]==value)
-		{
-			eraseEdge();
-			//cout<<"ERASE COMPLETE\n";
-		}	
+		eraseEdge(D, almost_shotest(N, S));
 		
-		if(distPrior[D] != INF)
-			cout<<distPrior[D]<<'\n';
+		int ans = almost_shotest(N, S);
+		
+		if(ans != INF)
+			cout<<ans<<'\n';
 		else
 			cout<<"-1\n";
 		
 		for(int i=0; i<N; ++i)
+		{
 			adj[i].clear();
+			
+			while(!Parent[i].empty())
+				Parent[i].pop();
+		}
 	}
 }
-
-// 같은 거리인 거 잘 안 없어지는 듯.
