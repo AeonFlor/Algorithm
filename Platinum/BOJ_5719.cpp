@@ -51,7 +51,7 @@ void almost_shotest(int size, int src)
 void eraseEdge()
 {
 	// 같은 거리인 것들 다 없앰.
-	cout<<distPrior[D]<<'\n';
+	//cout<<"END POINT : "<<distPrior[D]<<'\n';
 	
 	int parent, child = D;
 	
@@ -94,12 +94,16 @@ int main(void)
 		almost_shotest(N, S);
 		int value = distPrior[D];
 		
-		while(distPrior[D]!=value)
+		while(distPrior[D]==value)
+		{
 			eraseEdge();
+			//cout<<"ERASE COMPLETE\n";
+		}	
 		
-		//cout<<"ERASE COMPLETE\n";
-			
-		cout<<distPrior[D]<<'\n';
+		if(distPrior[D] != INF)
+			cout<<distPrior[D]<<'\n';
+		else
+			cout<<"-1\n";
 		
 		for(int i=0; i<N; ++i)
 			adj[i].clear();
