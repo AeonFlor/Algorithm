@@ -8,12 +8,11 @@ vector<int> tmpA, tmpB;
 
 void calc(int A, int B)
 {
-	while(tmpB[B] && tmpA[A])
-	{
-		--tmpB[B];
-		--tmpA[A];
-		--value;
-	}
+	int min = (tmpA[A] > tmpB[B])?tmpB[B]:tmpA[A];
+	
+	tmpB[B] -= min;
+	tmpA[A] -= min;
+	value -= min;
 }
 
 
