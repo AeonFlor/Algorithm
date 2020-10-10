@@ -37,36 +37,19 @@ void delQueen(int x, int y)
 	++board[x][y];
 }
 
-void print()
-{
-	for(int i=1; i<=N; ++i)
-	{
-		for(int j=1; j<=N; ++j)
-			cout<<board[i][j]<<' ';
-		cout<<'\n';
-	}
-}
-
 int count(int line)
 {
 	int ans=0;
 	
 	if(line == N)
-	{
-		cout<<"CHECK\n";
 		return 1;
-	}
 	
 	for(int i=1; i<=N; ++i)
 		if(!board[line+1][i])
 		{
 			setQueen(line+1, i);
-			cout<<"SET line "<<line+1<<" at "<<i<<"\n";
-			print();
 			ans += count(line+1);
 			delQueen(line+1, i);
-			cout<<"DEL line "<<line+1<<" at "<<i<<"\n";
-			print();
 		}
 	
 	return ans;
@@ -74,7 +57,10 @@ int count(int line)
 
 int main(void)
 {
-	cin>>N;
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
 	
+	cin>>N;
 	cout<<count(0)<<'\n';
 }
