@@ -2,55 +2,33 @@
 
 using namespace std;
 
-int board[16][16] = {0,};
 int N;
-
-void setQueen(int x, int y)
-{
-	for(int i=1; i<=N; ++i)
-	{
-		++board[i][y];
-		++board[x][i];
-		
-		if(y+i <= N)
-			++board[x+i][y+i];
-		if(y-i > 0)
-			++board[x+i][y-i];
-	}
-	
-	--board[x][y];
-}
-
-void delQueen(int x, int y)
-{
-	for(int i=1; i<=N; ++i)
-	{
-		--board[i][y];
-		--board[x][i];
-		
-		if(y+i <= N)
-			--board[x+i][y+i];
-		if(y-i > 0)
-			--board[x+i][y-i];
-	}
-	
-	++board[x][y];
-}
+int board[16];
 
 int count(int line)
 {
-	int ans=0;
-	
 	if(line == N)
 		return 1;
 	
-	for(int i=1; i<=N; ++i)
-		if(!board[line+1][i])
+	int ans=0;
+	
+	for(int i=0; i<N; ++i)
+	{
+		bool flag=false;
+		
+		for(int j=0; j<line; ++j)
+			if(board[j] == i || board[j] - (line-j) == i || board[j] + (line-j) == i)
+			{
+				flag = true;
+				break;
+			}
+		
+		if(!flag)
 		{
-			setQueen(line+1, i);
+			board[line] = i;
 			ans += count(line+1);
-			delQueen(line+1, i);
 		}
+	}
 	
 	return ans;
 }
