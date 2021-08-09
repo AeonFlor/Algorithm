@@ -5,10 +5,14 @@
 using namespace std;
 
 int N, L, R;
-vector<vector<int>> A;
-vector<vector<bool>> visited, bak;
+int dx[4] = { 0, 1, 0, -1 };
+int dy[4] = { 1, 0, -1, 0 };
 
-int bfs(int x, int y, int val)
+vector<vector<int>> A;
+vector<vector<bool>> visited;
+queue<pair<int,int>> A_union;
+
+int bfs(int x, int y)
 {
 	int cnt = 1, total = 0;
 	queue<pair<int, int>> q;
@@ -16,6 +20,7 @@ int bfs(int x, int y, int val)
 	if (!visited[x][y])
 	{
 		q.push({ x, y });
+		A_union.push({ x, y });
 		total = A[x][y];
 		visited[x][y] = true;
 
@@ -24,53 +29,19 @@ int bfs(int x, int y, int val)
 			pair<int, int> here = q.front();
 			q.pop();
 
-			if (here.first != 0 && !visited[here.first - 1][here.second])
+			for (int k = 0; k < 4; ++k)
 			{
-				if (abs(A[here.first][here.second] - A[here.first - 1][here.second]) >= L && abs(A[here.first][here.second] - A[here.first - 1][here.second]) <= R)
-				{
-					q.push({ here.first - 1, here.second });
-					visited[here.first - 1][here.second] = true;
-					++cnt;
-					total += A[here.first - 1][here.second];
-				}
-			}
+				if (here.first + dx[k] < 0 || here.first + dx[k] == N || here.second + dy[k] < 0 || here.second + dy[k] == N || visited[here.first + dx[k]][here.second + dy[k]])
+					continue;
 
-			if (here.first != N - 1 && !visited[here.first + 1][here.second])
-			{
-				if (abs(A[here.first][here.second] - A[here.first + 1][here.second]) >= L && abs(A[here.first][here.second] - A[here.first + 1][here.second]) <= R)
+				if (abs(A[here.first][here.second] - A[here.first + dx[k]][here.second + dy[k]]) >= L && abs(A[here.first][here.second] - A[here.first + dx[k]][here.second + dy[k]]) <= R)
 				{
-					q.push({ here.first + 1, here.second });
-					visited[here.first + 1][here.second] = true;
+					q.push({ here.first + dx[k], here.second + dy[k] });
+					A_union.push({ here.first + dx[k], here.second + dy[k] });
+					visited[here.first + dx[k]][here.second + dy[k]] = true;
 					++cnt;
-					total += A[here.first + 1][here.second];
+					total += A[here.first + dx[k]][here.second + dy[k]];
 				}
-			}
-
-			if (here.second != 0 && !visited[here.first][here.second - 1])
-			{
-				if (abs(A[here.first][here.second] - A[here.first][here.second - 1]) >= L && abs(A[here.first][here.second] - A[here.first][here.second - 1]) <= R)
-				{
-					q.push({ here.first, here.second - 1 });
-					visited[here.first][here.second - 1] = true;
-					++cnt;
-					total += A[here.first][here.second - 1];
-				}
-			}
-
-			if (here.second != N - 1 && !visited[here.first][here.second + 1])
-			{
-				if (abs(A[here.first][here.second] - A[here.first][here.second + 1]) >= L && abs(A[here.first][here.second] - A[here.first][here.second + 1]) <= R)
-				{
-					q.push({ here.first, here.second + 1 });
-					visited[here.first][here.second + 1] = true;
-					++cnt;
-					total += A[here.first][here.second + 1];
-				}
-			}
-
-			if (val != 0)
-			{
-				A[here.first][here.second] = val;
 			}
 		}
 	}
@@ -100,18 +71,21 @@ int main(void)
 		{
 			for (int j = 0; j < N; ++j)
 			{
-				ave = bfs(i, j, 0);
+				ave = bfs(i, j);
+
+				while (!A_union.empty())
+				{
+					pair<int, int> pos = A_union.front();
+					A_union.pop();
+
+					A[pos.first][pos.second] = ave;
+				}
 
 				if (ave == A[i][j])
 				{
 					++check;
 					continue;
 				}
-
-				bak = visited;
-				visited.assign(N, vector<bool>(N, false));
-				bfs(i, j, ave);
-				visited = bak;
 			}
 		}
 	}
