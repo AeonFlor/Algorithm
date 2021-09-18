@@ -10,7 +10,7 @@ vector<bool> visited;
 
 int main(void)
 {
-	int ans = 0, cnt = 0;
+	int ans = 0;
 	queue<pair<int, int>> q;
 
 	cin >> n >> m;
@@ -33,10 +33,10 @@ int main(void)
 		int here = q.front().first;
 		int bridge = q.front().second;
 
+		q.pop();
+
 		if (bridge > 2)
 			break;
-
-		q.pop();
 
 		++ans;
 

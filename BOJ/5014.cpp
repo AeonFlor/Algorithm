@@ -7,7 +7,7 @@ using namespace std;
 
 int main(void)
 {
-	int F, S, G, U, D, ans = -1, cnt = 0;
+	int F, S, G, U, D, ans = -1;
 
 	queue<pair<int, int>> q;
 	vector<bool> visited;
