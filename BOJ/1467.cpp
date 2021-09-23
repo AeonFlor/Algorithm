@@ -1,9 +1,12 @@
 // 1:45 ~ 3:10
-// 17:35 ~ 
+// 17:35 ~ 20:10
+// 01:00 ~ 02:00
 
 #include <iostream>
 #include <vector>
 #include <string>
+
+#include <fstream>
 
 using namespace std;
 
@@ -66,14 +69,15 @@ void search(int pos)
 
 		if (possible)
 		{
-			// 맨 앞자리에 올 수 있는 후보 숫자가 지워야 하는 개수와 같으면 필연적으로 지울 수 밖에 없음.
-			if (i == sejun_num[pos])
+			// 앞 자리에 올 수가 무조건 지워야 하는 수라면 넘어감
+			if(temp[10][i] == erase_num[i])
 			{
-				if (temp[10][sejun_num[pos]] == erase_num[sejun_num[pos]])
+				if (i == sejun_num[pos])
 				{
 					temp_cnt = 1;
 					--erase_num[sejun_num[pos]];
 					--erase_cnt;
+					--cur;
 				}
 
 				else
@@ -99,10 +103,102 @@ void search(int pos)
 
 int main(void)
 {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
 	int i;
 	string input;
 
 	erase_cnt = cur = 0;
+
+	/*
+	* Testcase 확인해보는 코드
+	* 
+	int num = 0;
+	string res;
+	string file_in, file_out;
+	int success = 0, total = 0;
+
+	while (++num <= 100)
+	{
+		file_in = "";
+		file_out = "";
+		sejun_num.clear();
+
+		if (num < 10)
+			file_in = "00" + to_string(num);
+
+		else if (num < 100)
+			file_in = "0" + to_string(num / 10) + to_string(num % 10);
+
+		else
+			file_in = "100";
+
+		file_out = "./testcases/output_" + file_in + ".txt";
+		file_in = "./testcases/input_" + file_in + ".txt";
+
+		ifstream in(file_in);
+		ifstream out(file_out);
+
+		input = "";
+		in >> input;
+
+		for (i = 0; i < input.size(); ++i)
+		{
+			sejun_num.push_back(input[i] - '0');
+		}
+
+		// 마지막에 문자 하나만 남는 경우 배제하기 위해 임시로 10 추가.
+		sejun_num.push_back(10);
+		input = "";
+		in >> input;
+
+		for (i = 0; i < input.size(); ++i)
+		{
+			++erase_cnt;
+			++erase_num[input[i] - '0'];
+		}
+
+		cur = 0;
+
+		while (erase_cnt)
+		{
+			search(cur++);
+		}
+
+		i = 0;
+
+		res = "";
+
+		for (; i < sejun_num.size() - 1; ++i)
+		{
+			res += (sejun_num[i] + '0');
+		}
+		input = "";
+		out >> input;
+
+		if (res == input)
+		{
+			cout << '[' << num << "] Clear!\n";
+			++success;
+		}
+
+		else
+		{
+			cout << '[' << num << "] Fail!\n";
+			cout << "Output : " << res << '\n';
+			cout << "Answer : " << input << '\n';
+		}
+
+		++total;
+
+		in.close();
+		out.close();
+	}
+
+	cout << "Accuracy : " << (double)success / total * 100 << "%\n";
+	*/
 
 	cin >> input;
 
@@ -127,7 +223,9 @@ int main(void)
 		search(cur++);
 	}
 
-	for (i = 0; i < sejun_num.size() - 1; ++i)
+	i = 0;
+
+	for (; i < sejun_num.size() - 1; ++i)
 	{
 		cout << sejun_num[i];
 	}
