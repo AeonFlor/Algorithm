@@ -38,10 +38,12 @@ int main(void)
 		--last;
 		cake.pop_back();
 
+		/*
 		// 가장 작은 조각과 같은 크기와 나머지로 잘랐을 경우, 나머지가 가장 큰 값보다 큰 지 확인.
 		if (temp - *first > *last)
 		{
 			// 가장 작은 조각에 나머지와 가장 큰 값의 차이만큼 더한 무게로 나눈다. div 가 새롭게 나뉘어 진 경우 중 작은 조각이다.
+			// 결과는 *last 와 (*first + 차이)이다.
 			div = *first + (temp - *first - *last);
 
 			// 작은 조각이 가장 큰 값보다 커진다면, 차이가 최소가 되도록 다시 나눈다. (작은 조각이 큰 조각보다 더 커지는 건 상관없지만 원래의 목적인 가장 큰 값보다 커지면 안 됨.)
@@ -64,6 +66,9 @@ int main(void)
 				div = *first;
 			}
 		}
+		*/
+
+		div = temp / 2;
 
 		pos = upper_bound(cake.begin(), cake.end(), div);
 		cake.insert(pos, div);
@@ -84,3 +89,4 @@ int main(void)
 }
 
 // 균일하게 나누지 않아도 된다.
+// 하나의 조각을 꼭 2개로 나누는 게 아니라 여러 개로 나눌 수 있다.
