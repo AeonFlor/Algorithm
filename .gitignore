@@ -14,5 +14,5 @@
 # except setting or temporary files.
 /Algorithm/x64
 /Algorithm/Algorithm.vcxproj*
-/input.txt
-/test.cpp
+/Algorithm/*.txt
+/Algorithm/*.cpp
