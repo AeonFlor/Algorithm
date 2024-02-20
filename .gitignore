@@ -1,4 +1,18 @@
-/*.cpp
-/*.exe
+# Ignore all files by default, but scan all directories.
+*
+!*/
 
-/.cph
+# Do not ignore git files in the root of the repo.
+!/.git*
+
+# Do not ignore README.md file.
+!/README.md
+
+# Do not ignore source files.
+!/Algorithm/**
+
+# except setting or temporary files.
+/Algorithm/x64
+/Algorithm/Algorithm.vcxproj*
+/input.txt
+/test.cpp
